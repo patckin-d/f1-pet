@@ -1,0 +1,42 @@
+
+.bottomShield {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    background: #899cff87;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 65px;
+}
+
+.bottomDriver {
+    display: flex;
+    align-items: center;
+    font-size: 36px;
+}
+
+.bottomDriverInfo {
+    position: relative;
+    button {
+        position: absolute;
+        border: none;
+        background: tomato;
+        color: #fff;
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        font-size: 12px;
+        text-align: center;
+        padding: 0;
+        right: 0;
+        cursor: pointer;
+    }
+}
+
+.driverImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid;
+}
