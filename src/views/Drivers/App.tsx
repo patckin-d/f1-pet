@@ -1,32 +1,25 @@
-import { useEffect, useState } from 'react'
 import styles from './drivers.module.css'
-import { Driver } from './components/Driver/Driver'
-import type { DriverType } from './App.types'
+import { Driver } from '../../components/Driver/Driver'
 import { DRIVERS_LIST } from './App.constants'
-import { BottomShield } from './components/BottomShield/BottomShield'
+import { BottomShield } from '../../components/BottomShield/BottomShield'
+import { addDriver, removeDriver } from '../../store/main'
+import { useAppDispatch, useAppSelector } from '../../store/store.types'
 
 function App() {
 
-  const [selectedDrivers, setSelecctedDrivers] = useState<DriverType[]>([])
+  const selectedDrivers = useAppSelector(state => state.main.selectedDrivers)
+  const dispatch = useAppDispatch()
 
   const deleteDriver = (driverId: number) => {
-    
-
-    setSelecctedDrivers((old) => {
-        return old.filter(d => d.id !== driverId)
-    })
+    dispatch(removeDriver(driverId))
   }
 
   const handleChange = (driverId: number, checked: boolean) => {
       if (checked) {
         if (selectedDrivers.length === 3 ) return
-        const driver = DRIVERS_LIST.find((d) => d.id === driverId )
-        driver && setSelecctedDrivers((old) => [
-            ...old,
-            driver
-        ])
+        dispatch(addDriver(driverId))
     } else {
-        deleteDriver(driverId)
+        dispatch(removeDriver(driverId))
     }
   }
 

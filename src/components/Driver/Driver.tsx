@@ -1,6 +1,6 @@
 import type { DriverProps } from "./Driver.types";
 import styles from "./Driver.module.css"
-import { useState, type ChangeEvent } from "react";
+import { type ChangeEvent } from "react";
 
 export function Driver({
     id,
@@ -30,7 +30,7 @@ export function Driver({
                 </div>
 
                 <div className={styles.team}>
-                    <img src={team.logo} />
+                    {team.logo && <img src={team.logo} />}
                     {team.name}
                 </div>
             </div>

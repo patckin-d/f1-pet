@@ -1,4 +1,4 @@
-import type { DriverType } from "./App.types";
+import type { DriverType } from "./Drivers.types";
 
 export const DRIVERS_LIST: DriverType[] = [
     {

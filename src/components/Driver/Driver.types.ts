@@ -2,9 +2,9 @@ export type DriverProps = {
     id: number;
     name: string;
     team: {
-        id: number;
-        name: string,
-        logo: string
+        id: number | null;
+        name: string | null,
+        logo: string | null
     };
     image: string,
     disable?: boolean,

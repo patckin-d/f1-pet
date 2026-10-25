@@ -1,4 +1,4 @@
-import type { DriverType } from "../../App.types"
+import type { DriverType } from "../../views/Drivers/Drivers.types"
 
 export type BottomShieldProps = {
     drivers: DriverType[],
