@@ -17,7 +17,11 @@ export interface ResultPayload {
 
 export interface MainState {
     selectedDrivers: DriverType[],
-    drivers: DriverType[],
     race: number,
     results: Record<number, CompetitionResult>
+}
+
+export interface AddDriverPayload {
+    driverId: number,
+    drivers: DriverType[]
 }

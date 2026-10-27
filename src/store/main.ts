@@ -1,11 +1,10 @@
 import { configureStore, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { DRIVERS_LIST } from "../views/Drivers/Drivers.constants";
-import type { MainState, ResultPayload } from "./store.types";
+import type { AddDriverPayload, MainState, ResultPayload } from "./store.types";
+import { api } from "./api";
 
 
 const initialState: MainState = {
     selectedDrivers: [],
-    drivers: DRIVERS_LIST,
     race: 1857,
     results: {}
 }
@@ -26,8 +25,8 @@ const mainSlice = createSlice({
     name: 'main',
     initialState: loadState,
     reducers: {
-        addDriver: (state, action: PayloadAction<number>) => {
-            const driver = state.drivers.find((d) => d.id === action.payload )
+        addDriver: (state, action: PayloadAction<AddDriverPayload>) => {
+            const driver = action.payload.drivers.find((d) => d.id == action.payload.driverId )
             if (!driver) return
 
             state.selectedDrivers = [
@@ -57,7 +56,11 @@ const mainSlice = createSlice({
 export const { addDriver, removeDriver, resetDrivers, setResult, setRace, resetResults } = mainSlice.actions
 
 export const store = configureStore({
-    reducer: { main: mainSlice.reducer }
+    reducer: {
+        main: mainSlice.reducer,
+        [api.reducerPath]: api.reducer
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware)
 })
 
 store.subscribe(() => {

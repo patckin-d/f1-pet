@@ -1,12 +1,12 @@
 import styles from './drivers.module.css'
 import { Driver } from '../../components/Driver/Driver'
-import { DRIVERS_LIST } from './Drivers.constants'
 import { BottomShield } from '../../components/BottomShield/BottomShield'
 import { addDriver, removeDriver } from '../../store/main'
 import { useAppDispatch, useAppSelector } from '../../store/store.types'
+import { useGetDriversQuery } from '../../store/api'
 
 export function Drivers() {
-
+  const {data = []} = useGetDriversQuery()
   const selectedDrivers = useAppSelector(state => state.main.selectedDrivers)
   const dispatch = useAppDispatch()
 
@@ -17,7 +17,10 @@ export function Drivers() {
   const handleChange = (driverId: number, checked: boolean) => {
       if (checked) {
         if (selectedDrivers.length === 3 ) return
-        dispatch(addDriver(driverId))
+        dispatch(addDriver({
+          driverId: driverId, 
+          drivers: data 
+        }))
     } else {
         dispatch(removeDriver(driverId))
     }
@@ -31,7 +34,7 @@ export function Drivers() {
     <>
         <h1>Pick your drivers:</h1>
         <div className={styles.drivers}>
-            { DRIVERS_LIST.map((d) =>{
+            { data.map((d) =>{
             return (
                 <Driver
                     key={d.id}
@@ -40,7 +43,7 @@ export function Drivers() {
                     team={d.teams[0].team}
                     image={d.image}
                     disable={selectedDrivers.length === 3}
-                    checked={selectedDrivers.some(s => s.id === d.id)}
+                    checked={selectedDrivers.some(s => s.id == d.id)}
                     onChange={handleChange}
                 />
             )

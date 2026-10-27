@@ -1,13 +1,14 @@
 import { NavLink, useParams } from "react-router";
-import { RACE_RESULTS } from "./Race.constants";
 import { useAppDispatch, useAppSelector } from "../../store/store.types";
 import { useEffect, useState } from "react";
 import { setResult } from "../../store/main";
+import { useGetRacesQuery } from "../../store/api";
 
 export function Race () {
     let params = useParams();
-    const dispatch = useAppDispatch() 
-    const race = RACE_RESULTS[params.race as string]
+    const dispatch = useAppDispatch()
+    const { data = [] } = useGetRacesQuery() 
+    const race = data[0]?.[params.race as string]
     const selectedDrivers = useAppSelector(state => state.main.selectedDrivers)
     const [score, setScore] = useState<number>(0)
 
@@ -15,7 +16,7 @@ export function Race () {
         let res = 0;
 
         for (let i = 0; i < 3; i++) {
-            if (race[i].driver.id === selectedDrivers[i].id) res += 1
+            if (race?.[i].driver.id == selectedDrivers[i].id) res += 1
         }
 
         setScore(res)
@@ -23,7 +24,7 @@ export function Race () {
 
     useEffect(() => {
         calculateResult()
-    }, [])
+    }, [data])
 
     const saveResult = () => {
         dispatch(setResult({
@@ -35,27 +36,13 @@ export function Race () {
         }))
     }
 
-    //   const load = () => {
-    // fetch(`https://v1.formula-1.api-sports.io/rankings/races?race=${params.race}`, {
-    //   "method": "GET",
-    //   "headers": {
-    //     "x-apisports-key": "76d8ab3d9c52c898d4f2107e21beaa4b"
-    //   }
-    // })
-    // .then(response => {
-    //   console.log(response);
-    // })
-    // .catch(err => {
-    //   console.log(err);
-    // });
-//   }
     return (
         <div style={{display: 'flex'}}>
         <div>
             <h1>Results:</h1>
             <div>
                 {
-                    race.map((r) => {
+                    race?.map((r) => {
                         return <div style={{display: 'flex', marginBottom: 10}} key={r.position}>
                             <h1>{r.position}.</h1>
                             <img src={r.driver.image} />
