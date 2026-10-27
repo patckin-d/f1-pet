@@ -1,11 +1,11 @@
 import styles from './drivers.module.css'
 import { Driver } from '../../components/Driver/Driver'
-import { DRIVERS_LIST } from './App.constants'
+import { DRIVERS_LIST } from './Drivers.constants'
 import { BottomShield } from '../../components/BottomShield/BottomShield'
 import { addDriver, removeDriver } from '../../store/main'
 import { useAppDispatch, useAppSelector } from '../../store/store.types'
 
-function App() {
+export function Drivers() {
 
   const selectedDrivers = useAppSelector(state => state.main.selectedDrivers)
   const dispatch = useAppDispatch()
@@ -52,5 +52,3 @@ function App() {
     </>
   )
 }
-
-export default App

@@ -26,4 +26,10 @@
 
 .completed {
     background-color: rgba(0, 128, 0, 0.086);
+    pointer-events: none;
+}
+
+.disabled {
+    opacity: 0.3;
+    pointer-events: none;
 }

@@ -1,11 +1,39 @@
 import { NavLink, useParams } from "react-router";
 import { RACE_RESULTS } from "./Race.constants";
-import { useAppSelector } from "../../store/store.types";
+import { useAppDispatch, useAppSelector } from "../../store/store.types";
+import { useEffect, useState } from "react";
+import { setResult } from "../../store/main";
 
 export function Race () {
     let params = useParams();
+    const dispatch = useAppDispatch() 
     const race = RACE_RESULTS[params.race as string]
     const selectedDrivers = useAppSelector(state => state.main.selectedDrivers)
+    const [score, setScore] = useState<number>(0)
+
+    const calculateResult = () => {
+        let res = 0;
+
+        for (let i = 0; i < 3; i++) {
+            if (race[i].driver.id === selectedDrivers[i].id) res += 1
+        }
+
+        setScore(res)
+    }
+
+    useEffect(() => {
+        calculateResult()
+    }, [])
+
+    const saveResult = () => {
+        dispatch(setResult({
+            raceId: Number(params.race),
+            result: {
+                drivers: selectedDrivers,
+                score: score
+            }
+        }))
+    }
 
     //   const load = () => {
     // fetch(`https://v1.formula-1.api-sports.io/rankings/races?race=${params.race}`, {
@@ -28,7 +56,7 @@ export function Race () {
             <div>
                 {
                     race.map((r) => {
-                        return <div style={{display: 'flex', marginBottom: 10}}>
+                        return <div style={{display: 'flex', marginBottom: 10}} key={r.position}>
                             <h1>{r.position}.</h1>
                             <img src={r.driver.image} />
                         </div>
@@ -48,9 +76,9 @@ export function Race () {
                     })
                 }
             </div>
-            <h1>0/3</h1>
+            <h1>{score}/3</h1>
         </div>
-        <NavLink to="/races">Next</NavLink>
+        <NavLink onClick={saveResult} to="/races">Next</NavLink>
         </div>
     )
 }

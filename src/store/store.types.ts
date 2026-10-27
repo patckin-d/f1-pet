@@ -1,5 +1,23 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "./main";
+import type { DriverType } from "../views/Drivers/Drivers.types";
 
 export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
 export const useAppSelector = useSelector.withTypes<RootState>()
+
+export interface CompetitionResult {
+    drivers: DriverType[],
+    score: number
+}
+
+export interface ResultPayload {
+    raceId: number,
+    result: CompetitionResult
+}
+
+export interface MainState {
+    selectedDrivers: DriverType[],
+    drivers: DriverType[],
+    race: number,
+    results: Record<number, CompetitionResult>
+}

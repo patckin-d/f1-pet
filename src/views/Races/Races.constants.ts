@@ -1,4 +1,4 @@
-import type { RaceType } from "./Race.types";
+import type { RaceType } from "./Races.types";
 
 
 export const RACE_LIST: RaceType[] = [
