@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store.types'
 import { useGetDriversQuery } from '../../store/api'
 
 export function Drivers() {
-  const {data = []} = useGetDriversQuery()
+  const { data = [] } = useGetDriversQuery()
   const selectedDrivers = useAppSelector(state => state.main.selectedDrivers)
   const dispatch = useAppDispatch()
 
